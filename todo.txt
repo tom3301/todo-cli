@@ -1,5 +1,6 @@
-dit is test 2
 dit is task 1
-Dit is een nieuwe taak
-en nog eentje dan
-en nog eentje dan
+todo.txt syntax toevoegen +todo-cli
+TUI maken +todo-clitest task
+deze taak
+sporten +gezondheid @thuis
+Morgen sporten +health @gym

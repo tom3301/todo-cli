@@ -1,22 +1,30 @@
 use clap::Parser;
-
+use clap::Subcommand;
 /// Todo-cli
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
 pub struct TodoArgs {
-    /// Show the tasks
-    #[arg(short,default_value_t = 0)]
-    pub show: u8,
+    /// Command to perform
+    #[clap(subcommand)]
+    pub command: Option<Command>,
+}
 
-    /// Task to add
-    #[arg(short,default_value_t=String::from(" "))]
-    pub task: String,
-
-    /// Task to find
-    #[arg(short,default_value_t=String::from(" "))]
-    pub find_task: String,
-
-    /// Task to remove
-    #[arg(short,default_value_t=String::from(" "))]
-    pub remove_task: String,
+#[derive(Debug, Subcommand)]
+pub enum Command {
+    /// Add a task
+    Add {
+        input : String
+    } ,
+    /// Show all the tasks.
+    Show{
+        filter : Option<String>
+    },
+    /// Find a task containing string
+    Find{
+        find_task : String
+    },
+    /// Remove a task equal to string
+    Remove {
+        remove_task: String
+    }
 }
