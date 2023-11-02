@@ -19,12 +19,8 @@ pub enum Command {
     Show{
         filter : Option<String>
     },
-    /// Find a task containing string
-    Find{
-        find_task : String
-    },
     /// Remove a task equal to string
     Remove {
-        remove_task: String
+        remove_task: u8
     }
 }

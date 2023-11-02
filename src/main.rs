@@ -6,7 +6,8 @@ mod args;
 mod file_func;
 mod task;
 mod pretty_show;
-
+mod show;
+mod get_tasks;
 
 fn main()-> io::Result<()> {
 // Get the command from the cli
@@ -14,7 +15,9 @@ fn main()-> io::Result<()> {
 
     match args.command{
         //Show all the tasks
-        Some(args::Command::Show {filter})=> file_func::show_tasks(&filter)?,
+        Some(args::Command::Show {filter})=> {
+            show::show_tasks(&filter)?
+        }
         // Add a task
         Some(args::Command::Add {input}) =>{
             // make a task struct out of the input
@@ -23,10 +26,8 @@ fn main()-> io::Result<()> {
 
         }
         // Remove a task
-        Some(args::Command::Remove { remove_task}) =>file_func::remove_task(&remove_task)?,
-        // Find a task
-        Some(args::Command::Find { find_task}) =>file_func::find_task(&find_task)?,
-        None => println!("Niet gelukt!")
+        Some(args::Command::Remove { remove_task}) =>file_func::remove_task(remove_task)?,
+        None => println!("Error: do not know that command")
     } 
     Ok(())
 
@@ -60,10 +61,6 @@ mod tests {
     fn test_parser_priority() {
         assert_eq!(task::parse_input("(A) test is %programma en een @tag").priority,'A');
         assert_eq!(task::parse_input("test (A) is %programma en een @tag").priority,'n'); //n if there is no priority
-    }
-    #[test]
-    fn test_pretty_print() {
-        pretty_show::pretty_show_task(parse_input("test de tag functie @deze en dit project +todo"));
     }
 
 }

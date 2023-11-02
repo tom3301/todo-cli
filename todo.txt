@@ -1,6 +1,7 @@
 dit is task 1
-todo.txt syntax toevoegen +todo-cli
 TUI maken +todo-clitest task
 deze taak
 sporten +gezondheid @thuis
 Morgen sporten +health @gym
+Zorgen dat - de projecten en taggs niet meer breken
+De lege regel verwijderen

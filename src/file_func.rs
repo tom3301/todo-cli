@@ -4,7 +4,6 @@ use std::fs::OpenOptions;
 use std::io::Write;
 const FILE_PATH : &str = "todo.txt";
 
-use crate::pretty_show::*;
 
 pub fn read_todo_file()-> Result<String,io::Error>{
     // read the todo.txt file
@@ -32,41 +31,7 @@ pub fn write_to_file(task: &str) -> io::Result<()> {
 
 }
 
-pub fn show_tasks(filter: &Option<String>) -> io::Result<()>{
-    // Print the todo.txt file
-    match filter {
-        Some(text)=> {
-            let _ = find_task(&text);
-            Ok(()) 
-        },
-
-        None =>{
-            let contents: Result<String, io::Error> = read_todo_file();
-            match contents {
-                Ok(s) => {
-                    pretty_show_tasks(&s);
-                    // println!("Tasks:\n{}", s);
-                    Ok(())},
-                Err(err) => {
-                    println!("Error; cannot read file");
-                    Err(err)}
-                }
-            }
-        }
-}
-pub fn find_task(task: &str) -> io::Result<()>{
-    let contents = read_todo_file();
-    println!("Tasks containing {}:\n",task);
-
-    for line in contents?.lines(){
-        if line.contains(task){
-            pretty_show_tasks(line);
-        }else{}
-    }
-    
-    Ok(())
-}
-pub fn remove_task(task:&str) -> io::Result<()>{
+pub fn remove_task(line_number_to_del: u8) -> io::Result<()>{
 
     // Open the file for reading
     let contents = read_todo_file();
@@ -76,8 +41,8 @@ pub fn remove_task(task:&str) -> io::Result<()>{
     let temp_file = File::create(&temp_file_path)?;
 
     // Iterate through the lines and skip the line to be removed
-    for line in contents?.lines() {
-        if line != task {
+    for (index,line) in contents?.lines().enumerate() {
+        if index + 1 != line_number_to_del as usize {
             writeln!(&temp_file, "{}", line)?;
         } else {println!("Removed task :{}", line)}
     }
